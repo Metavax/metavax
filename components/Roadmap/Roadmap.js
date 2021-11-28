@@ -69,7 +69,7 @@ export default function Roadmap() {
 					MetaVax <span className='text-secondary'>Roadmap</span>
 				</h2>
 				<div className='relative flex flex-col items-center justify-center mx-auto mb-24'>
-					<div className='hidden lg:block'>
+					<div className='z-10 hidden lg:block'>
 						<Image src={syringe} alt='Roadmap' />
 					</div>
 					<RoadmapSection

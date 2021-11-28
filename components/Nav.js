@@ -4,7 +4,7 @@ import { FaTwitter, FaDiscord } from "react-icons/fa";
 export default function Nav() {
 	return (
 		<>
-			<div className='sticky top-0 z-[99] bg-primary flex flex-row items-center justify-between w-full p-5'>
+			<div className='sticky top-0 z-[99] bg-primary flex flex-row items-center justify-between w-full p-5 shadow-green border-b-2 border-solid border-black'>
 				<div className='flex flex-row'>
 					<a href='#about'>About</a>
 					<span className='mx-5'>|</span>

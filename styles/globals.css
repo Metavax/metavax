@@ -35,6 +35,12 @@ li {
 	@apply max-w-[35ch] mb-4 last:mb-0 text-txt;
 }
 
+.inner-list {
+	li {
+		@apply mb-0;
+	}
+}
+
 .rc-slider-track {
 	@apply bg-secondary h-2 !important;
 }

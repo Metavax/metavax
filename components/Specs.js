@@ -49,7 +49,15 @@ export default function Specs() {
 				<div className='grid content-center gap-10 sm:grid-cols-2 auto-rows-min justify-items-center'>
 					<Spec title='Giveaways'>
 						<ul>
-							<li>$50,000 USD will be given away to ONE MetaVax holder.</li>
+							<li>
+								$50,000 USD will be given away to 3 MetaVaxs holders.
+								<div className='pl-4 mb-2 inner-list'>
+									<li>1st prize - $35,000</li>
+									<li>2nd prize - $15,000</li>
+									<li>3rd prize - $5,000</li>
+								</div>
+							</li>
+
 							<li>1x Mint = 1x Ticket Entry</li>
 							<li>Minters will get 1x extra ticket during the pre-sale!</li>
 						</ul>
