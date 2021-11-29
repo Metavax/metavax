@@ -75,7 +75,7 @@ export default function Roadmap() {
 					<RoadmapSection
 						percent='0%'
 						className='right-0 xl:right-32 top-36'
-						lineStyle='right-full top-4 2xl:w-[24rem] w-[16rem] mr-8'
+						lineStyle='right-full top-4 2xl:w-[23.75rem] w-[16rem] mr-8'
 						done={false}
 						current={true}
 					>

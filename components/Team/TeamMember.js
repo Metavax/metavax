@@ -4,7 +4,7 @@ import Image from "next/image";
 export default function TeamMember(props) {
 	return (
 		<div
-			className={`flex flex-col items-center justify-center mb-12 last:mb-0 ${
+			className={`flex flex-col items-center md:text-start text-center justify-center mb-12 last:mb-0 ${
 				props.reverse === false ? "md:flex-row" : "md:flex-row-reverse"
 			}`}
 		>

@@ -4,6 +4,7 @@ import vax1 from "../public/imgs/vax1.png";
 import vax2 from "../public/imgs/vax2.png";
 import vax3 from "../public/imgs/vax3.png";
 import vax4 from "../public/imgs/vax4.png";
+import greenVirus from "../public/imgs/green-virus.png";
 
 export default function About() {
 	return (
@@ -46,8 +47,11 @@ export default function About() {
 						<div className='flex flex-col items-center justify-center filter drop-shadow-lg'>
 							<Image src={vax3} alt='Vax 3' layout='intrinsic' />
 						</div>
-						<div className='flex flex-col items-center justify-center filter drop-shadow-lg'>
+						<div className='relative flex flex-col items-center justify-center filter drop-shadow-lg'>
 							<Image src={vax4} alt='Vax 4' layout='intrinsic' />
+							<div className='absolute -bottom-28 -right-12 z-[-1] transform scale-50'>
+								<Image src={greenVirus} alt='Vax 4' layout='intrinsic' />
+							</div>
 						</div>
 					</div>
 				</div>
