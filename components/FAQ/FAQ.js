@@ -40,9 +40,9 @@ export default function FAQ() {
 					large={false}
 				>
 					<p>
-						13th December 2021 (pre-sale)
+						18th December 2021 (pre-sale)
 						<br />
-						14th December 2021 (public sale)
+						19th December 2021 (public sale)
 					</p>
 					<p>
 						Each MetaVax will cost 0.069 ETH. Connect your meta-mask wallet,

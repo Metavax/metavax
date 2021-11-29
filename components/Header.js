@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import Countdown from "./Countdown";
 import banner from "../public/imgs/banner.jpg";
 import logo from "../public/imgs/logo.png";
 
@@ -19,6 +20,9 @@ export default function Header() {
 						A virus is spreading...
 					</p>
 				</div>
+				{/* <div className='absolute left-1/2 right-1/2 bottom-4'>
+					<Countdown date='December 1, 2021 22:51:00 GMT-07:00' />
+				</div> */}
 			</div>
 		</>
 	);

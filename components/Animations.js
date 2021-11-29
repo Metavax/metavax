@@ -22,7 +22,7 @@ export default function Animations() {
 				<Image src={greenUrchinTwo} alt='Virus' />
 			</div>
 
-			<div className='absolute hidden sm:block md:left-16 -left-32 md:top-[20%] top-[18%] opacity-60 scale-75 md:scale-100 animate-germ'>
+			<div className='absolute hidden sm:block md:left-16 -left-32 md:top-[16%] top-[18%] opacity-60 scale-75 md:scale-100 animate-germ'>
 				<Image src={bigSquid} alt='Virus' />
 			</div>
 
@@ -62,7 +62,7 @@ export default function Animations() {
 				<Image src={bigSquid} alt='Virus' />
 			</div>
 
-			<div className='absolute md:right-32 md:top-[86%] -right-8 top-[85%] animate-germ'>
+			<div className='absolute md:right-32 md:top-[86%] -left-8 top-[85%] animate-germ'>
 				<Image src={greenVirus} alt='Virus' />
 			</div>
 

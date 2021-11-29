@@ -5,10 +5,11 @@ import button from "../public/imgs/button-bg.png";
 export default function Button(props) {
 	return (
 		<>
-			<div className='relative bg-no-repeat bg-cover bg-center flex justify-center items-center'>
+			<div className='relative flex items-center justify-center bg-center bg-no-repeat bg-cover'>
 				<Image className='select-none' src={button} alt={props.txt} />
-				<p className='absolute text-black uppercase m-0 lg:text-2xl filter text-xl drop-shadow-light leading-none'>
+				<p className='absolute m-0 text-xl leading-none text-black uppercase lg:text-2xl filter drop-shadow-light'>
 					{props.txt}
+					{props.children}
 				</p>
 			</div>
 		</>

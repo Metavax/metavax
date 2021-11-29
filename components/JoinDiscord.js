@@ -9,7 +9,7 @@ export default function JoinDiscord() {
 			<div className='absolute'>
 				<Image src={squid} alt='Squid' />
 			</div>
-			<Button txt='Join the Discord' link='#' />
+			<Button txt='Join the Discord' link='https://discord.gg/metavax' />
 		</div>
 	);
 }
