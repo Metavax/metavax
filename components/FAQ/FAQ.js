@@ -20,7 +20,7 @@ export default function FAQ() {
 				</FAQAccordian>
 
 				<FAQAccordian title='How many whitelist spots' large={false}>
-					<p>There is a total of 650 whitelist spots available. minting fee!</p>
+					<p>There is a total of 650 whitelist spots available.</p>
 				</FAQAccordian>
 
 				<FAQAccordian title='How many MetaVax’s can I mint?' large={false}>
