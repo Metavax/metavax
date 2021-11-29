@@ -39,14 +39,12 @@ export default function CountDown({ date }) {
 		<>
 			<div className='flex flex-col items-center justify-center'>
 				<div className='text-center'>
-					<>
-						<div className='flex flex-row mt-8 mb-10'>
-							<TimeBlock time={leading0(days)} type='Days' />
-							<TimeBlock time={leading0(hours)} type='Hours' />
-							<TimeBlock time={leading0(minutes)} type='Minutes' />
-							<TimeBlock time={leading0(seconds)} type='Seconds' />
-						</div>
-					</>
+					<div className='flex flex-row mt-8 mb-10'>
+						<TimeBlock time={leading0(days)} type='Days' />
+						<TimeBlock time={leading0(hours)} type='Hours' />
+						<TimeBlock time={leading0(minutes)} type='Minutes' />
+						<TimeBlock time={leading0(seconds)} type='Seconds' />
+					</div>
 				</div>
 			</div>
 		</>

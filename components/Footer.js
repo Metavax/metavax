@@ -26,6 +26,14 @@ export default function Footer() {
 			<div className='mt-8'>
 				<Image src={logo} alt='Metavax' />
 			</div>
+			<div className='pb-6 mt-1 text-center'>
+				<p>
+					Developed by{" "}
+					<a href='https://illusivemedia.co' target='_blank' rel='noreferrer'>
+						Illusive Media
+					</a>
+				</p>
+			</div>
 		</div>
 	);
 }

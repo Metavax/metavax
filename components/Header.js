@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
-import Countdown from "./Countdown";
+// import Countdown from "./Countdown";
+import Date from "./Date";
 import banner from "../public/imgs/banner.jpg";
 import logo from "../public/imgs/logo.png";
 
@@ -23,6 +24,9 @@ export default function Header() {
 				{/* <div className='absolute left-1/2 right-1/2 bottom-4'>
 					<Countdown date='December 1, 2021 22:51:00 GMT-07:00' />
 				</div> */}
+				<div className='absolute z-20 flex flex-col items-center justify-center right-4 bottom-4'>
+					<Date />
+				</div>
 			</div>
 		</>
 	);
