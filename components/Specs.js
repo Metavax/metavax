@@ -64,7 +64,7 @@ export default function Specs() {
 					</Spec>
 					<Spec title='PRICE 0.069 ETH'>
 						<ul>
-							<li>Max 3 NFTs per transaction on pre-sale</li>
+							<li>Max 5 NFTs per transaction on pre-sale</li>
 						</ul>
 					</Spec>
 					<Spec title='VIP Exclusive Membership'>

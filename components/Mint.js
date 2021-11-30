@@ -10,6 +10,7 @@ import handle from "../public/imgs/virus-slider.png";
 
 export default function Mint(props) {
 	const [tokenCount, setTokenCount] = useState(1);
+	// const mint = useCallback(() => {}, [tokenCount, setTokenCount]);
 	const price = (0.069 * tokenCount).toFixed(3);
 
 	return (
@@ -52,7 +53,7 @@ export default function Mint(props) {
 				</div>
 
 				<div className='mt-4 text-center light-text'>
-					<p className='mb-4'>*Maximum 3 MetaVax in Pre-sale</p>
+					<p className='mb-4'>*Maximum 5 MetaVax in Pre-sale</p>
 					<p>*Maximum 10 MetaVax per transaction in public sale.</p>
 					<p>Transactions unlimited.</p>
 				</div>

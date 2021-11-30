@@ -67,7 +67,7 @@ export default function FAQ() {
 				</div>
 
 				<div className='mt-4 text-center light-text'>
-					<p className='mb-4'>*Maximum 3 MetaVax in Pre-sale</p>
+					<p className='mb-4'>*Maximum 5 MetaVax in Pre-sale</p>
 					<p>*Maximum 10 MetaVax per transaction in public sale.</p>
 					<p>Transactions unlimited.</p>
 				</div>
