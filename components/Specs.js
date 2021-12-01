@@ -52,7 +52,7 @@ export default function Specs() {
 							<li>
 								$50,000 USD will be given away to 3 MetaVaxs holders.
 								<div className='pl-4 mb-2 inner-list'>
-									<li>1st prize - $35,000</li>
+									<li>1st prize - $30,000</li>
 									<li>2nd prize - $15,000</li>
 									<li>3rd prize - $5,000</li>
 								</div>
