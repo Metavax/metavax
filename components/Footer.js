@@ -1,7 +1,8 @@
 import React from "react";
 import Image from "next/image";
-import { FaDiscord, FaTwitter } from "react-icons/fa";
+import { FaDiscord, FaTwitter, FaInstagram } from "react-icons/fa";
 import logo from "../public/imgs/logo-small.png";
+import calendar from "../public/imgs/nft-calendar.png";
 
 export default function Footer() {
 	return (
@@ -22,9 +23,20 @@ export default function Footer() {
 				>
 					<FaDiscord />
 				</a>
+				<a
+					className='ml-4'
+					href='https://www.instagram.com/metavaxnft/'
+					target='_blank'
+					rel='noreferrer'
+				>
+					<FaInstagram />
+				</a>
 			</div>
-			<div className='mt-8'>
+			<div className='mt-8 text-center'>
 				<Image src={logo} alt='Metavax' />
+			</div>
+			<div className='mx-auto mt-0 text-center' style={{ width: "25%" }}>
+				<Image src={calendar} alt='NFT Calendar' />
 			</div>
 			<div className='pb-6 mt-1 text-center'>
 				<p>

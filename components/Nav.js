@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Image from "next/image";
-import { FaTwitter, FaDiscord } from "react-icons/fa";
+import { FaTwitter, FaDiscord, FaInstagram } from "react-icons/fa";
 import { FiMenu } from "react-icons/fi";
 import frame from "../public/imgs/nav-frame.png";
 
@@ -40,6 +40,14 @@ export default function Nav() {
 						rel='noreferrer'
 					>
 						<FaDiscord />
+					</a>
+					<a
+						className='ml-4'
+						href='https://www.instagram.com/metavaxnft/'
+						target='_blank'
+						rel='noreferrer'
+					>
+						<FaInstagram />
 					</a>
 				</div>
 			</div>
