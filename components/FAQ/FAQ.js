@@ -25,7 +25,7 @@ export default function FAQ() {
 
 				<FAQAccordian title='How many MetaVax’s can I mint?' large={false}>
 					<p>
-						Pre-sale members will be able to mint a total of 3 MetaVax’s each. A
+						Pre-sale members will be able to mint a total of 5 MetaVax’s each. A
 						total of 1,950 MetaVax’s max will be minted during pre-sale.
 						Unlimited mints during the public sale!
 					</p>
