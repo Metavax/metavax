@@ -32,15 +32,16 @@ export default function Footer() {
 					<FaInstagram />
 				</a>
 			</div>
+			<div className='mt-8 text-center'>
+				<Image src={logo} alt='Metavax' />
+			</div>
 			<a
 				href='https://nftcalendar.io/event/metavax/'
-				className='mt-8 text-center'
+				className='flex items-center justify-center mx-auto mt-0 text-center'
+				style={{ width: "30%" }}
 			>
-				<Image src={logo} alt='Metavax' />
-			</a>
-			<div className='mx-auto mt-0 text-center' style={{ width: "25%" }}>
 				<Image src={calendar} alt='NFT Calendar' />
-			</div>
+			</a>
 			<div className='pb-6 mt-1 text-center'>
 				<p>
 					Developed by{" "}
