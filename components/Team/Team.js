@@ -33,7 +33,7 @@ export default function Team() {
 				/>
 
 				<TeamMember
-					name='Andrew'
+					name='Doggo'
 					position='Lead Developer'
 					img={andrew}
 					reverse={false}
