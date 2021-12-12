@@ -11,7 +11,7 @@ const TimeBlock = ({ time, type }) => {
 	);
 };
 
-export default function CountDown({ date }) {
+export default function CountDown({ date, children }) {
 	const [days, setDays] = useState(0);
 	const [hours, setHours] = useState(0);
 	const [minutes, setMinutes] = useState(0);
@@ -39,11 +39,20 @@ export default function CountDown({ date }) {
 		<>
 			<div className='flex flex-col items-center justify-center'>
 				<div className='text-center'>
-					<div className='flex flex-row mt-8 mb-10'>
-						<TimeBlock time={leading0(days)} type='Days' />
-						<TimeBlock time={leading0(hours)} type='Hours' />
-						<TimeBlock time={leading0(minutes)} type='Minutes' />
-						<TimeBlock time={leading0(seconds)} type='Seconds' />
+					<div className='flex flex-col py-32'>
+						{Date.parse(new Date()) >= Date.parse(date) ? (
+							<>{children}</>
+						) : (
+							<>
+								<h2 className='mb-1'>Time Till Mint</h2>
+								<div className='flex flex-row mt-8 mb-10'>
+									<TimeBlock time={leading0(days)} type='Days' />
+									<TimeBlock time={leading0(hours)} type='Hours' />
+									<TimeBlock time={leading0(minutes)} type='Minutes' />
+									<TimeBlock time={leading0(seconds)} type='Seconds' />
+								</div>
+							</>
+						)}
 					</div>
 				</div>
 			</div>
