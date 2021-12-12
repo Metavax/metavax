@@ -6,12 +6,102 @@ import Button from "./Button";
 import ButtonText from "./ButtonText";
 import squid from "../public/imgs/squid-virus.png";
 import tooltip from "../public/imgs/tooltip.svg";
-import handle from "../public/imgs/virus-slider.png";
+import sliderImage from "../public/imgs/virus-slider.png";
+import { createAlchemyWeb3 } from "@alch/alchemy-web3";
+
+
+const chain = 4;
+import contractAbi from '../contractAbi.json';
+const contractAddress = '0x207CD7d09f71628554957A93A1D2cc37B9B387Ba';
+
+var web3 = createAlchemyWeb3(`https://eth-${chain === 1 ? 'mainnet' : 'rinkeby'}.alchemyapi.io/v2/8hhd5SbSzqFnmoDyaLrMenGTYl87fQs9`);
+
+const contract = new web3.eth.Contract(contractAbi, contractAddress);
+//---
+
+const switchChainRequestData = {
+	"method": "wallet_switchEthereumChain",
+	"params": [
+		{
+			"chainId": `0x${chain.toString(16)}`
+		}
+	]
+};
+
+const requestAccountsData = {
+	method: "eth_requestAccounts",
+};
+
+const whitelistApiURL = 'https://vax-whitelist-api.herokuapp.com/api/whitelist?address=';
 
 export default function Mint(props) {
 	const [tokenCount, setTokenCount] = useState(1);
-	// const mint = useCallback(() => {}, [tokenCount, setTokenCount]);
+	const [address, setAddress] = useState(undefined); // Can use this in the UI if needed
 	const price = (0.069 * tokenCount).toFixed(3);
+
+	const connect = () => {
+		if (!window.ethereum) {
+			alert('Please install metamask! (make an error popup)');
+			return false
+		}
+
+		ethereum.on('accountsChanged', (accounts) => {
+			if (accounts.length > 0)
+				setAddress(accounts[0])
+			else
+				setAddress(undefined)
+		});
+
+		web3.setWriteProvider(window.ethereum);
+
+		return window.ethereum.request(requestAccountsData).then(accounts => {
+			setAddress(accounts[0]);
+			web3.eth.defaultAccount = accounts[0];
+			return window.ethereum.request(switchChainRequestData).then(() => {
+				return true;
+			}).catch(() => {
+				return false;
+			})
+		})
+	}
+
+	const mint = () => {
+		try {
+			connect().then(async connected => {
+				if (!connected) return;
+
+				const amount = tokenCount;
+				const value = web3.utils.toBN(0.069e18).mul(web3.utils.toBN(tokenCount));
+				const from = (await (web3.eth.getAccounts()))[0];
+
+				const publicSaleStatus = await contract.methods.isPublicSaleActive().call().catch(e => { console.error(e); return false });
+				const WhitelistSaleStatus = await contract.methods.isWhitelistSaleActive().call().catch(e => { console.error(e); return false });
+
+				if (!(publicSaleStatus || WhitelistSaleStatus)) {
+					//Sale isn't active
+					return alert('Sale is not currently active!');
+				} else if (publicSaleStatus) {
+					// Public and/or whitelist is active
+					return contract.methods.publicMint(amount).send({ value, from });
+				}
+
+				// Whitelist is active
+				return fetch(whitelistApiURL + address).then(async response => {
+					if (response.ok) {
+						const { signature } = await response.json();
+						return contract.methods.whitelistMint(amount, signature).send({ value, from }).catch(() => { });
+					} else {
+						const { error } = await response.json();
+						return alert(`${response.status !== 403 ? `${response.status}: ` : ''}${error} `);
+					}
+				}).catch((e) => {
+					alert(`Error: ${e.message}`);
+				})
+
+			})
+		} catch { }
+	};
+
 
 	return (
 		<>
@@ -36,7 +126,7 @@ export default function Mint(props) {
 											</span>
 											<Image src={tooltip} alt='Slider Tooltip' />
 										</div>
-										<Image src={handle} alt='Slider Handle' />
+										<Image src={sliderImage} alt='Slider Handle' />
 									</div>
 								</Handle>
 							)}
@@ -49,7 +139,7 @@ export default function Mint(props) {
 					<div className='absolute'>
 						<Image src={squid} alt='Squid' />
 					</div>
-					<Button txt='Mint' />
+					<Button OnClick={mint} txt='Mint' />
 				</div>
 
 				<div className='mt-4 text-center light-text'>
