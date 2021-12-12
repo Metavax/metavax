@@ -30,13 +30,14 @@ const requestAccountsData = {
 const whitelistApiURL =
 	"https://vax-whitelist-api.herokuapp.com/api/whitelist?address=";
 
-var addr
+var addr;
 
 export default function Mint(props) {
 	const [tokenCount, setTokenCount] = useState(1);
 	const [address, setAddress] = useState(undefined); // Can use this in the UI if needed
 	const [signature, setSignature] = useState(undefined);
-	const price = (0.069 * tokenCount).toFixed(3);
+	const presalePrice = (0.059 * tokenCount).toFixed(3);
+	const publicPrice = (0.069 * tokenCount).toFixed(3);
 	const maxWhitelistMints = 5;
 
 	const connect = () => {
@@ -50,7 +51,7 @@ export default function Mint(props) {
 		ethereum.on("accountsChanged", (accounts) => {
 			console.log(accounts);
 			if (accounts.length > 0) {
-				if (address === accounts[0]) return
+				if (address === accounts[0]) return;
 				setAddress(accounts[0]);
 				getNewSignature()
 					.then((sig) => {
@@ -117,7 +118,7 @@ export default function Mint(props) {
 					.mul(web3.utils.toBN(tokenCount));
 				const from = (await web3.eth.getAccounts())[0];
 
-				const timeNow = parseInt(Date.now() / 1000)
+				const timeNow = parseInt(Date.now() / 1000);
 				const saleStartTime = await contract.methods
 					.saleStartTime()
 					.call()
@@ -145,8 +146,11 @@ export default function Mint(props) {
 
 				if (currentMints + amount > maxWhitelistMints) {
 					return alert(
-						`You have already used up ${currentMints} out of your ${maxWhitelistMints} mints! ${currentMints < maxWhitelistMints
-							? `\nYou can mint up to ${maxWhitelistMints - currentMints} more.`
+						`You have already used up ${currentMints} out of your ${maxWhitelistMints} mints! ${
+							currentMints < maxWhitelistMints
+								? `\nYou can mint up to ${
+										maxWhitelistMints - currentMints
+								  } more.`
 								: ""
 						}`
 					);
@@ -161,8 +165,8 @@ export default function Mint(props) {
 		}
 	};
 
-	const presale = 'December 12, 2021 22:30:00 GMT+09:30'
-	const publicsale = 'December 19, 2021 22:30:00 GMT+09:30'
+	const presale = "December 18, 2021 22:30:00 GMT+09:30";
+	const publicsale = "December 19, 2021 22:30:00 GMT+09:30";
 
 	return (
 		<>
@@ -180,7 +184,7 @@ export default function Mint(props) {
 							preSale={
 								<MintButton
 									max={5}
-									price={price}
+									price={presalePrice}
 									tokenSet={setTokenCount}
 									tokenCount={tokenCount}
 									click={mint}
@@ -189,7 +193,7 @@ export default function Mint(props) {
 							publicSale={
 								<MintButton
 									max={10}
-									price={price}
+									price={publicPrice}
 									tokenSet={setTokenCount}
 									tokenCount={tokenCount}
 									click={mint}
