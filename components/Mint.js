@@ -8,11 +8,60 @@ import squid from "../public/imgs/squid-virus.png";
 import tooltip from "../public/imgs/tooltip.svg";
 import handle from "../public/imgs/virus-slider.png";
 
+import Web3 from "web3";
+import detectEthereumProvider from "@metamask/detect-provider";
+import contract from "../contracts/minter_contract.json";
+
 export default function Mint(props) {
 	const [tokenCount, setTokenCount] = useState(1);
-	// const mint = useCallback(() => {}, [tokenCount, setTokenCount]);
+	const [web3, setWeb3] = useState("");
+	const [currentAddr, SetCurrentAddr] = useState("");
+	const [contractInstance, SetContractInstance] = useState("");
 	const price = (0.069 * tokenCount).toFixed(3);
 
+	async function connectWallet() {
+		const provider = await detectEthereumProvider();
+		if (provider) startApp(provider);
+		else console.log("Please install MetaMask!");
+	}
+	async function startApp(provider) {
+		let web3 = new Web3(provider);
+		setWeb3(web3);
+		ethereum
+			.request({ method: "eth_requestAccounts" })
+			.then((accounts) => {
+				let contractInstance = new web3.eth.Contract(
+					contract.ABI,
+					contract.Address
+				);
+				SetContractInstance(contractInstance);
+				SetCurrentAddr(accounts[0]);
+			})
+			.catch((err) => {
+				console.log("MetaMask Error:", err);
+			});
+	}
+	function mintToken() {
+		let mintPrice = Number(price) * 1000000000000000000;
+		contractInstance.methods
+			.publicMint(tokenCount)
+			.send({
+				from: currentAddr,
+				value: mintPrice,
+			})
+			.on("transactionHash", (hash) => {
+				console.log(hash);
+			})
+			.on("confirmation", (confirmationNumber, receipt) => {
+				console.log(confirmationNumber, receipt);
+			})
+			.on("receipt", (receipt) => {
+				console.log(receipt);
+			})
+			.on("error", (error, receipt) => {
+				console.log(error, receipt);
+			});
+	}
 	return (
 		<>
 			<div id='mint' className='relative'>
@@ -49,7 +98,15 @@ export default function Mint(props) {
 					<div className='absolute'>
 						<Image src={squid} alt='Squid' />
 					</div>
-					<Button txt='Mint' />
+					{currentAddr ? (
+						<Button txt='Mint' id='btn-mint' funcName={mintToken} />
+					) : (
+						<Button
+							txt='Connect Wallet'
+							id='btn-connect'
+							funcName={connectWallet}
+						/>
+					)}
 				</div>
 
 				<div className='mt-4 text-center light-text'>
