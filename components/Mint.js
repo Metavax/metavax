@@ -30,6 +30,8 @@ const requestAccountsData = {
 const whitelistApiURL =
 	"https://vax-whitelist-api.herokuapp.com/api/whitelist?address=";
 
+var addr
+
 export default function Mint(props) {
 	const [tokenCount, setTokenCount] = useState(1);
 	const [address, setAddress] = useState(undefined); // Can use this in the UI if needed
@@ -46,7 +48,9 @@ export default function Mint(props) {
 		}
 
 		ethereum.on("accountsChanged", (accounts) => {
+			console.log(accounts);
 			if (accounts.length > 0) {
+				if (address === accounts[0]) return
 				setAddress(accounts[0]);
 				getNewSignature()
 					.then((sig) => {
@@ -104,7 +108,6 @@ export default function Mint(props) {
 
 	const mint = () => {
 		try {
-			console.log("test");
 			connect().then(async (connected) => {
 				if (!connected) return;
 
@@ -114,43 +117,36 @@ export default function Mint(props) {
 					.mul(web3.utils.toBN(tokenCount));
 				const from = (await web3.eth.getAccounts())[0];
 
-				const publicSaleStatus = await contract.methods
-					.isPublicSaleActive()
+				const timeNow = parseInt(Date.now() / 1000)
+				const saleStartTime = await contract.methods
+					.saleStartTime()
 					.call()
 					.catch((e) => {
 						console.error(e);
 						return false;
 					});
 
-				const WhitelistSaleStatus = await contract.methods
-					.isWhitelistSaleActive()
-					.call()
-					.catch((e) => {
-						console.error(e);
-						return false;
-					});
-
-				if (!(publicSaleStatus || WhitelistSaleStatus)) {
+				if (timeNow < saleStartTime) {
 					//Sale isn't active
 					return alert("Sale is not currently active!");
-				} else if (publicSaleStatus) {
+				} else if (saleStartTime + 86400 < timeNow) {
 					// Public and/or whitelist is active
 					return contract.methods.publicMint(amount).send({ value, from });
 				}
+
+				// Whitelist is active
+
 				if (signature === undefined) {
 					return alert("You are not whitelisted!");
 				}
-
-				// Whitelist is active
 				const currentMints = parseInt(
 					await contract.methods.whitelistMints(from).call()
 				);
-				console.log(currentMints, amount, maxMints);
-				if (currentMints + amount > maxMints) {
+
+				if (currentMints + amount > maxWhitelistMints) {
 					return alert(
-						`You have already used up ${currentMints} out of your ${maxMints} mints! ${
-							currentMints < maxMints
-								? `\nYou can mint up to ${maxMints - currentMints} more.`
+						`You have already used up ${currentMints} out of your ${maxWhitelistMints} mints! ${currentMints < maxWhitelistMints
+							? `\nYou can mint up to ${maxWhitelistMints - currentMints} more.`
 								: ""
 						}`
 					);
@@ -165,8 +161,8 @@ export default function Mint(props) {
 		}
 	};
 
-	const presale = "December 12, 2021 21:30:00 GMT+09:30";
-	const publicsale = "December 19, 2021 22:30:00 GMT+09:30";
+	const presale = 'December 12, 2021 22:30:00 GMT+09:30'
+	const publicsale = 'December 19, 2021 22:30:00 GMT+09:30'
 
 	return (
 		<>
