@@ -81,6 +81,12 @@ export default function Mint(props) {
 				}
 
 				// Whitelist is active
+				const currentMints = parseInt(await contract.methods.whitelistMints(from).call());
+				const maxMints = 5;
+				console.log(currentMints, amount, maxMints);
+				if (currentMints + amount > maxMints) {
+					return alert(`You have already used up ${currentMints} out of your ${maxMints} mints! ${currentMints < maxMints ? `\nYou can mint up to ${maxMints - currentMints} more.` : ''}`)
+				}
 				return fetch(whitelistApiURL + address).then(async response => {
 					if (response.ok) {
 						const { signature } = await response.json();
