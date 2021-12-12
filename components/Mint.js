@@ -8,14 +8,13 @@ import squid from "../public/imgs/squid-virus.png";
 import tooltip from "../public/imgs/tooltip.svg";
 import sliderImage from "../public/imgs/virus-slider.png";
 import { createAlchemyWeb3 } from "@alch/alchemy-web3";
-
-
-const chain = 4;
 import contractAbi from '../contractAbi.json';
-const contractAddress = '0x207CD7d09f71628554957A93A1D2cc37B9B387Ba';
 
-var web3 = createAlchemyWeb3(`https://eth-${chain === 1 ? 'mainnet' : 'rinkeby'}.alchemyapi.io/v2/8hhd5SbSzqFnmoDyaLrMenGTYl87fQs9`);
 
+const chain = 4; // TODO
+const contractAddress = '0x207CD7d09f71628554957A93A1D2cc37B9B387Ba'; // TODO
+
+const web3 = createAlchemyWeb3(`https://eth-rinkeby.alchemyapi.io/v2/8hhd5SbSzqFnmoDyaLrMenGTYl87fQs9`); // TODO
 const contract = new web3.eth.Contract(contractAbi, contractAddress);
 //---
 
@@ -42,7 +41,7 @@ export default function Mint(props) {
 	const connect = () => {
 		if (!window.ethereum) {
 			alert('Please install metamask! (make an error popup)');
-			return false
+			return new Promise(res => { res(false) })
 		}
 
 		ethereum.on('accountsChanged', (accounts) => {
@@ -57,12 +56,8 @@ export default function Mint(props) {
 		return window.ethereum.request(requestAccountsData).then(accounts => {
 			setAddress(accounts[0]);
 			web3.eth.defaultAccount = accounts[0];
-			return window.ethereum.request(switchChainRequestData).then(() => {
-				return true;
-			}).catch(() => {
-				return false;
-			})
-		})
+			return window.ethereum.request(switchChainRequestData).then(() => { return true }).catch(() => { return false })
+		}).catch(() => { return false })
 	}
 
 	const mint = () => {
@@ -92,14 +87,14 @@ export default function Mint(props) {
 						return contract.methods.whitelistMint(amount, signature).send({ value, from }).catch(() => { });
 					} else {
 						const { error } = await response.json();
-						return alert(`${response.status !== 403 ? `${response.status}: ` : ''}${error} `);
+						return alert(`${response.status !== 403 ? `${response.status}: ` : ''}${error}`);
 					}
 				}).catch((e) => {
 					alert(`Error: ${e.message}`);
 				})
 
 			})
-		} catch { }
+		} catch (e) { console.error(e); }
 	};
 
 
