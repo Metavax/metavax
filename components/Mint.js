@@ -29,8 +29,6 @@ const requestAccountsData = {
 const whitelistApiURL =
 	'https://vax-whitelist-api.herokuapp.com/api/whitelist?address='
 
-var intervalSet = false
-
 export default function Mint(props) {
 	const [tokenCount, setTokenCount] = useState(1)
 	const [address, setAddress] = useState(undefined)
@@ -39,13 +37,17 @@ export default function Mint(props) {
 	const presalePrice = (0.059 * tokenCount).toFixed(3)
 	const publicPrice = (0.069 * tokenCount).toFixed(3)
 	const maxWhitelistMints = 5
+	var intervalSet = false
 
 	const updateStates = async () => {
-		const publicSaleState = await contract.methods.publicSale().call()
-		const whitelistSaleState = await contract.methods.whitelistSale().call()
-		setPublicSaleActive(publicSaleState)
-		setPreSaleActive(whitelistSaleState)
-		return { publicSaleState, whitelistSaleState }
+		const newPublicState = await contract.methods.publicSale().call()
+		const newPresaleState = await contract.methods.whitelistSale().call()
+
+		if (newPublicState !== publicSaleActive)
+			setPublicSaleActive(newPublicState)
+
+		if (newPresaleState !== preSaleActive) setPreSaleActive(newPresaleState)
+		return { newPublicState, newPresaleState }
 	}
 
 	const connect = async () => {
@@ -55,7 +57,6 @@ export default function Mint(props) {
 		}
 
 		ethereum.on('accountsChanged', (accounts) => {
-			console.log(accounts)
 			if (accounts.length > 0) {
 				if (address === accounts[0]) return
 				setAddress(accounts[0])
@@ -64,72 +65,70 @@ export default function Mint(props) {
 			}
 		})
 		if (!intervalSet) {
-			intervalSet = true;
-			updateStates().catch(() => { })
-			setInterval(() => { updateStates().catch(() => { }) }, 2500);
+			intervalSet = true
+			updateStates().catch(() => {})
+			setInterval(() => {
+				updateStates().catch(() => {})
+			}, 2500)
 		}
 		web3.setWriteProvider(window.ethereum)
 
-		return window.ethereum
-			.request(requestAccountsData)
-			.then(async (accounts) => {
-				setAddress(accounts[0])
-				return window.ethereum
-					.request(switchChainRequestData)
-					.then(() => {
-						return true
-					})
-					.catch(() => {
-						return false
-					})
-			})
-			.catch(() => {
-				setAddress(undefined)
-				return false
-			})
+		try {
+			setAddress((await window.ethereum.request(requestAccountsData))[0])
+			return window.ethereum
+				.request(switchChainRequestData)
+				.then(() => {
+					return true
+				})
+				.catch(() => {
+					return false
+				})
+		} catch {
+			return false
+		}
 	}
 
-	const whitelistMint = async () => {
+	const presaleMint = async () => {
 		try {
-			connect().then(async (connected) => {
-				if (!connected) return
+			const connected = await connect()
+			if (!connected) return
 
-				const amount = tokenCount
-				const value = web3.utils
-					.toBN(0.059e18)
-					.mul(web3.utils.toBN(tokenCount))
-				const from = (await web3.eth.getAccounts())[0]
+			const amount = tokenCount
+			const value = web3.utils
+				.toBN(0.059e18)
+				.mul(web3.utils.toBN(tokenCount))
+			const from = (await web3.eth.getAccounts())[0]
 
-				getSignature(from).then(async res => {
-					if (!res.success) {
-						if (res.status === 403) {
-							return alert('You are not whitelisted!')
-						} else {
-							return alert(res.status)
-						}
-					}
+			const res = await getSignature(from)
+			if (!res.success) {
+				if (res.status === 403) {
+					return alert('You are not whitelisted!')
+				} else {
+					return alert(res.status)
+				}
+			}
 
-					const signature = res.signature
-					const currentMints = parseInt(
-						await contract.methods.whitelistMints(from).call()
-					)
+			const signature = res.signature
+			const currentMints = parseInt(
+				await contract.methods.whitelistMints(from).call()
+			)
 
-					if (currentMints + amount > maxWhitelistMints) {
-						return alert(
-							`You have already used up ${currentMints} out of your ${maxWhitelistMints} mints! ${currentMints < maxWhitelistMints
-								? `\nYou can mint up to ${maxWhitelistMints - currentMints
-								} more.`
-								: ''
-							}`
-						)
-					}
+			if (currentMints + amount > maxWhitelistMints) {
+				return alert(
+					`You have already used up ${currentMints} out of your ${maxWhitelistMints} mints! ${
+						currentMints < maxWhitelistMints
+							? `\nYou can mint up to ${
+									maxWhitelistMints - currentMints
+							  } more.`
+							: ''
+					}`
+				)
+			}
 
-					return contract.methods
-						.whitelistMint(amount, signature)
-						.send({ value, from })
-						.catch(() => { });
-				})
-			})
+			return contract.methods
+				.whitelistMint(amount, signature)
+				.send({ value, from })
+				.catch(() => {})
 		} catch (e) {
 			console.error(e)
 		}
@@ -137,68 +136,64 @@ export default function Mint(props) {
 
 	const publicMint = async () => {
 		try {
-			connect().then(async (connected) => {
-				if (!connected) return
+			const connected = await connect()
+			if (!connected) return
 
-				const amount = tokenCount
-				const value = web3.utils
-					.toBN(0.069e18)
-					.mul(web3.utils.toBN(tokenCount))
-				const from = (await web3.eth.getAccounts())[0]
+			const amount = tokenCount
+			const value = web3.utils
+				.toBN(0.069e18)
+				.mul(web3.utils.toBN(tokenCount))
+			const from = (await web3.eth.getAccounts())[0]
 
-				return contract.methods
-					.publicMint(amount)
-					.send({ value, from })
-					.catch(() => { });
-			})
+			return contract.methods
+				.publicMint(amount)
+				.send({ value, from })
+				.catch(() => {})
 		} catch (e) {
 			console.error(e)
 		}
 	}
 
-	const getSignature = (address) => {
-		return fetch(whitelistApiURL + address)
-			.then((response) => {
-				if (response.ok) {
-					return response.json().then(data => {
-						return { success: true, signature: data.signature }
-					})
-				} else {
-					return { success: false, status: response.status }
-				}
-			})
-			.catch((e) => {
-				return { success: false, status: 'Unknown' }
-			})
+	const getSignature = async (address) => {
+		try {
+			const response = await fetch(whitelistApiURL + address)
+			if (response.ok) {
+				const data = await response.json()
+				return { success: true, signature: data.signature }
+			} else {
+				return { success: false, status: response.status }
+			}
+		} catch {
+			return { success: false, status: 'Unknown' }
+		}
 	}
 
 	return (
 		<>
-				{address === undefined ? (
-					<div className='py-24'>
-						<div className='flex items-center justify-center max-w-xl mx-auto'>
-							<Button onClick={connect} txt='Connect to Mint' />
-						</div>
+			{address === undefined ? (
+				<div className='py-24'>
+					<div className='flex items-center justify-center max-w-xl mx-auto'>
+						<Button onClick={connect} txt='Connect to Mint' />
 					</div>
-				) : (
-					publicSaleActive ?
-						<MintButton
-							max={10}
-							price={publicPrice}
-							tokenSet={setTokenCount}
-							tokenCount={tokenCount}
-							click={publicMint}
-						/>
-						: preSaleActive ?
-							<MintButton
-								max={5}
-								price={presalePrice}
-								tokenSet={setTokenCount}
-								tokenCount={tokenCount}
-								click={whitelistMint}
-							/>
-						: <ButtonText txt='No active sales!'></ButtonText>
-
+				</div>
+			) : publicSaleActive ? (
+				<MintButton
+					max={10}
+					price={publicPrice}
+					tokenSet={setTokenCount}
+					tokenCount={tokenCount}
+					click={publicMint}
+				/>
+			) : preSaleActive ? (
+				<MintButton
+					max={5}
+					price={presalePrice}
+					tokenSet={setTokenCount}
+					tokenCount={tokenCount}
+					click={presaleMint}
+				/>
+			) : (
+				<ButtonText txt='No active sales!'></ButtonText>
 			)}
 		</>
 	)
