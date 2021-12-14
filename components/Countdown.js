@@ -3,10 +3,10 @@ import React, { useState, useEffect } from "react";
 const TimeBlock = ({ time, type }) => {
 	return (
 		<div className='flex flex-col items-center justify-center mx-4'>
-			<p className='mb-3 text-6xl font-bold text-secondary filter drop-shadow-text'>
+			<p className='text-secondary filter drop-shadow-text mb-3 text-6xl font-bold'>
 				{time}
 			</p>
-			<h4 className='uppercase filter drop-shadow-text'>{type}</h4>
+			<h4 className='filter drop-shadow-text uppercase'>{type}</h4>
 		</div>
 	);
 };
