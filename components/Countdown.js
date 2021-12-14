@@ -3,15 +3,15 @@ import React, { useState, useEffect } from "react";
 const TimeBlock = ({ time, type }) => {
 	return (
 		<div className='flex flex-col items-center justify-center mx-4'>
-			<p className='mb-3 text-6xl font-bold text-secondary filter drop-shadow-text'>
+			<p className='text-secondary filter drop-shadow-text mb-3 text-6xl font-bold'>
 				{time}
 			</p>
-			<h4 className='uppercase filter drop-shadow-text'>{type}</h4>
+			<h4 className='filter drop-shadow-text uppercase'>{type}</h4>
 		</div>
 	);
 };
 
-export default function CountDown({ date }) {
+export default function CountDown({ date, children }) {
 	const [days, setDays] = useState(0);
 	const [hours, setHours] = useState(0);
 	const [minutes, setMinutes] = useState(0);
@@ -39,11 +39,20 @@ export default function CountDown({ date }) {
 		<>
 			<div className='flex flex-col items-center justify-center'>
 				<div className='text-center'>
-					<div className='flex flex-row mt-8 mb-10'>
-						<TimeBlock time={leading0(days)} type='Days' />
-						<TimeBlock time={leading0(hours)} type='Hours' />
-						<TimeBlock time={leading0(minutes)} type='Minutes' />
-						<TimeBlock time={leading0(seconds)} type='Seconds' />
+					<div className='flex flex-col py-32'>
+						{Date.parse(new Date()) >= Date.parse(date) ? (
+							<>{children}</>
+						) : (
+							<>
+								<h2 className='mb-1'>Time Till Mint</h2>
+								<div className='flex flex-row mt-8 mb-10'>
+									<TimeBlock time={leading0(days)} type='Days' />
+									<TimeBlock time={leading0(hours)} type='Hours' />
+									<TimeBlock time={leading0(minutes)} type='Minutes' />
+									<TimeBlock time={leading0(seconds)} type='Seconds' />
+								</div>
+							</>
+						)}
 					</div>
 				</div>
 			</div>

@@ -6,7 +6,7 @@ export default function FAQ() {
 	return (
 		<>
 			<div id='faq' className='py-36'>
-				<h2 className='mb-12 text-center filter drop-shadow-text text-secondary'>
+				<h2 className='filter drop-shadow-text text-secondary mb-12 text-center'>
 					F.A.Q
 				</h2>
 				<FAQAccordian title='What is MetaVax' large={false}>
@@ -26,7 +26,7 @@ export default function FAQ() {
 				<FAQAccordian title='How many MetaVax’s can I mint?' large={false}>
 					<p>
 						Pre-sale members will be able to mint a total of 5 MetaVax’s each. A
-						total of 1,950 MetaVax’s max will be minted during pre-sale.
+						total of 3,250 MetaVax’s max will be minted during pre-sale.
 						Unlimited mints during the public sale!
 					</p>
 				</FAQAccordian>
@@ -66,7 +66,7 @@ export default function FAQ() {
 					<Button txt='Mint' />
 				</div>
 
-				<div className='mt-4 text-center light-text'>
+				<div className='light-text mt-4 text-center'>
 					<p className='mb-4'>*Maximum 5 MetaVax in Pre-sale</p>
 					<p>*Maximum 10 MetaVax per transaction in public sale.</p>
 					<p>Transactions unlimited.</p>
