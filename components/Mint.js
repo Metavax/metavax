@@ -165,33 +165,33 @@ export default function Mint(props) {
 
 	return (
 		<>
-			<CountDown date='December 18, 2021 12:00:00 GMT+09:30'>
-				{address === undefined ? (
-					<div className='py-24'>
-						<div className='flex items-center justify-center max-w-xl mx-auto'>
-							<Button onClick={connect} txt='Connect to Mint' />
-						</div>
+			{/* <CountDown date='December 18, 2021 12:00:00 GMT+09:30'> */}
+			{address === undefined ? (
+				<div className='py-24'>
+					<div className='flex items-center justify-center max-w-xl mx-auto'>
+						<Button onClick={connect} txt='Connect to Mint' />
 					</div>
-				) : publicSaleActive ? (
-					<MintButton
-						max={10}
-						price={publicPrice}
-						tokenSet={setTokenCount}
-						tokenCount={tokenCount}
-						click={publicMint}
-					/>
-				) : preSaleActive ? (
-					<MintButton
-						max={5}
-						price={presalePrice}
-						tokenSet={setTokenCount}
-						tokenCount={tokenCount}
-						click={presaleMint}
-					/>
-				) : (
-					<ButtonText txt='No active sales!'></ButtonText>
-				)}
-			</CountDown>
+				</div>
+			) : publicSaleActive ? (
+				<MintButton
+					max={10}
+					price={publicPrice}
+					tokenSet={setTokenCount}
+					tokenCount={tokenCount}
+					click={publicMint}
+				/>
+			) : preSaleActive ? (
+				<MintButton
+					max={5}
+					price={presalePrice}
+					tokenSet={setTokenCount}
+					tokenCount={tokenCount}
+					click={presaleMint}
+				/>
+			) : (
+				<ButtonText txt='No active sales!'></ButtonText>
+			)}
+			{/* </CountDown> */}
 		</>
 	);
 }
