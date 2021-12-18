@@ -52,7 +52,7 @@ export default function Mint(props) {
 
 	const connect = async () => {
 		if (!window.ethereum) {
-			alert('Please install metamask! (make an error popup)');
+			alert('Please install metamask!');
 			return false;
 		}
 
