@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Web3 from 'web3';
 import contractAbi from '../contractAbi.json';
 import MintButton from './MintButton';
@@ -6,10 +6,10 @@ import Button from './Button';
 import ButtonText from './ButtonText';
 import CountDown from './Countdown';
 
-const chain = 4; // TODO
-const contractAddress = '0xfE3067D0d31392c220C285a684798b88Ad475da8'; // TODO
+const chain = 1;
+const contractAddress = '0x7bEEeFF66004eE42Df093D3ceBb3Da39951B4e6d';
 
-const web3 = new Web3(`https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161`); // TODO
+const web3 = new Web3(`https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161`);
 const contract = new web3.eth.Contract(contractAbi, contractAddress);
 
 const switchChainRequestData = {
@@ -33,17 +33,19 @@ export default function Mint(props) {
 	const maxWhitelistMints = 5;
 	var intervalSet = false;
 
+	useEffect(() => {
+		setInterval(() => {
+			updateStates().catch(() => {});
+		}, 2500);
+		updateStates().catch(() => {});
+	}, []);
+
 	const updateStates = async () => {
 		const newPublicState = await contract.methods.publicSale().call();
 		const newPresaleState = await contract.methods.whitelistSale().call();
 
-		if (newPublicState !== publicSaleActive) {
-			setPublicSaleActive(newPublicState);
-		}
-
-		if (newPresaleState !== preSaleActive) {
-			setPreSaleActive(newPresaleState);
-		}
+		setPublicSaleActive(newPublicState);
+		setPreSaleActive(newPresaleState);
 
 		return { newPublicState, newPresaleState };
 	};
@@ -67,11 +69,6 @@ export default function Mint(props) {
 					setAddress(undefined);
 				}
 			});
-
-			setInterval(() => {
-				updateStates().catch(() => {});
-			}, 2500);
-			updateStates().catch(() => {});
 		}
 
 		try {
@@ -136,10 +133,13 @@ export default function Mint(props) {
 			const value = web3.utils.toBN(0.069e18).mul(web3.utils.toBN(tokenCount));
 			const from = (await web3.eth.getAccounts())[0];
 
-			return contract.methods
-				.publicMint(amount)
-				.send({ value, from })
-				.catch(() => {});
+			try {
+				return contract.methods.publicMint(amount).send({ value, from });
+			} catch {
+				alert('Could not estimate gas, the transaction may fail!');
+			}
+
+			return contract.methods.publicMint(amount).estimateGas({ value, from });
 		} catch (e) {
 			console.error(e);
 		}
@@ -160,8 +160,7 @@ export default function Mint(props) {
 	};
 
 	return (
-		<>
-			{/* <CountDown date='December 18, 2021 12:00:00 GMT+09:30'> */}
+		<CountDown date='December 18, 2021 23:00:00 GMT+09:30'>
 			{address === undefined ? (
 				<div className='py-24'>
 					<div className='flex items-center justify-center max-w-xl mx-auto'>
@@ -175,7 +174,6 @@ export default function Mint(props) {
 			) : (
 				<ButtonText txt='No active sales!'></ButtonText>
 			)}
-			{/* </CountDown> */}
-		</>
+		</CountDown>
 	);
 }
