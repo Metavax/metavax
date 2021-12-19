@@ -124,26 +124,26 @@ export default function Mint(props) {
 		}
 	};
 
-	// const publicMint = async () => {
-	// 	try {
-	// 		const connected = await connect();
-	// 		if (!connected) return;
+	const publicMint = async () => {
+		try {
+			const connected = await connect();
+			if (!connected) return;
 
-	// 		const amount = tokenCount;
-	// 		const value = web3.utils.toBN(0.069e18).mul(web3.utils.toBN(tokenCount));
-	// 		const from = (await web3.eth.getAccounts())[0];
+			const amount = tokenCount;
+			const value = web3.utils.toBN(0.069e18).mul(web3.utils.toBN(tokenCount));
+			const from = (await web3.eth.getAccounts())[0];
 
-	// 		try {
-	// 			return contract.methods.publicMint(amount).send({ value, from });
-	// 		} catch {
-	// 			alert('Could not estimate gas, the transaction may fail!');
-	// 		}
+			try {
+				return contract.methods.publicMint(amount).send({ value, from });
+			} catch {
+				alert('Could not estimate gas, the transaction may fail!');
+			}
 
-	// 		return contract.methods.publicMint(amount).estimateGas({ value, from });
-	// 	} catch (e) {
-	// 		console.error(e);
-	// 	}
-	// };
+			return contract.methods.publicMint(amount).estimateGas({ value, from });
+		} catch (e) {
+			console.error(e);
+		}
+	};
 
 	const getSignature = async (address) => {
 		try {
@@ -160,19 +160,19 @@ export default function Mint(props) {
 	};
 
 	return (
-		<CountDown date='December 18, 2021 23:00:00 GMT+09:30'>
+		<CountDown date="December 18, 2021 23:00:00 GMT+09:30">
 			{address === undefined ? (
-				<div className='py-24'>
-					<div className='flex items-center justify-center max-w-xl mx-auto'>
-						<Button onClick={connect} txt='Connect to Mint' />
+				<div className="py-24">
+					<div className="flex items-center justify-center max-w-xl mx-auto">
+						<Button onClick={connect} txt="Connect to Mint" />
 					</div>
 				</div>
-			) : // ) : publicSaleActive ? (
-			// 	<MintButton max={10} price={publicPrice} tokenSet={setTokenCount} tokenCount={tokenCount} click={publicMint} />
-			preSaleActive ? (
+			) : publicSaleActive ? (
+				<MintButton max={10} price={publicPrice} tokenSet={setTokenCount} tokenCount={tokenCount} click={publicMint} />
+			) : preSaleActive ? (
 				<MintButton max={5} price={presalePrice} tokenSet={setTokenCount} tokenCount={tokenCount} click={presaleMint} />
 			) : (
-				<ButtonText txt='No active sales!'></ButtonText>
+				<ButtonText txt="No active sales!"></ButtonText>
 			)}
 		</CountDown>
 	);
