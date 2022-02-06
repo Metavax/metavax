@@ -1,12 +1,16 @@
 module.exports = {
-	mode: "jit",
-	purge: ["./pages/**/*.{html,js}", "./components/**/*.{html,js}"],
-	darkMode: false, // or 'media' or 'class'
+	content: [
+		"./pages/**/*.{js,ts,jsx,tsx}",
+		"./components/**/*.{js,ts,jsx,tsx}",
+	],
 	theme: {
+		container: {
+			center: true,
+		},
 		extend: {
 			colors: {
 				primary: "#222335",
-				secondary: "#58CB7F",
+				secondary: "#85B089",
 				teal: "#00FFC2",
 				txt: "#C4C4C4",
 			},
@@ -16,27 +20,12 @@ module.exports = {
 			},
 			boxShadow: {
 				green: "0px 4px 20px 5px rgba(88, 203, 93, 0.2)",
+				hrash: "0px 4px 4px rgba(0, 0, 0, 0.25);",
 			},
-			animation: {
-				germ: "germ 12s linear infinite alternate",
-				"germ-reverse": "germ 12s linear infinite alternate-reverse",
-			},
-			keyframes: {
-				germ: {
-					"0%": { transform: "translate(-1.5rem, -1.5rem)" },
-					"25%": {
-						transform: "translateX(1.5rem)",
-					},
-					"50%": {
-						transform: "translate(1.5rem, -1.5rem)",
-					},
-					"75%": {
-						transform: "translate(-1.5rem, 2rem)",
-					},
-					"100%": {
-						transform: "translate(2rem, 2rem)",
-					},
-				},
+			fontFamily: {
+				heading: ["Catamaran", "sans-serif"],
+				sub: ["Raleway", "sans-serif"],
+				body: ["Bai Jamjuree", "sans-serif"],
 			},
 		},
 	},

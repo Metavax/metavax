@@ -1,17 +1,35 @@
-import virus from "../public/imgs/blue-virus.png";
-import Image from "next/image";
+import Meta from "../components/Meta";
+import Nav from "../components/prebuilt/Nav";
+import MintInfo from "../components/sections/MintInfo";
+import Roadmap from "../components/sections/Roadmap";
+import Hero from "../components/sections/Hero";
+import Specs from "../components/sections/Specs";
+import Team from "../components/sections/Team";
+import FutureCollections from "../components/sections/FutureCollections";
+import MintFooter from "../components/sections/MintFooter";
 
-export default function index() {
+export default function Home() {
 	return (
 		<>
-			<div className='relative flex flex-col items-center justify-center w-screen min-h-screen'>
-				<div className='absolute'>
-					<Image src={virus} alt='Metavax NFT' />
-				</div>
-				<h2 className='drop-shadow-text relative z-10 mb-0'>
-					Under Construction
-				</h2>
-			</div>
+			<Meta title='Metavax NFT' desc='' />
+			<Nav
+				position='sticky'
+				links={["About", "Mint", "Roadmap", "Specs", "Team", "Post-Mint"]}
+			/>
+
+			<Hero />
+
+			<MintInfo />
+
+			<Roadmap />
+
+			<Specs />
+
+			<Team />
+
+			<FutureCollections />
+
+			<MintFooter />
 		</>
 	);
 }

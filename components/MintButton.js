@@ -1,12 +1,9 @@
-import React from "react";
 import Image from "next/image";
 import Slider, { Handle } from "rc-slider";
 import "rc-slider/assets/index.css";
 import Button from "./Button";
 import ButtonText from "./ButtonText";
-import squid from "../public/imgs/squid-virus.png";
-import tooltip from "../public/imgs/tooltip.svg";
-import sliderImage from "../public/imgs/virus-slider.png";
+import tooltip from "../public/img/tooltip.svg";
 
 export default function MintButton(props) {
 	return (
@@ -26,13 +23,14 @@ export default function MintButton(props) {
 							handle={(handleProps) => (
 								<Handle {...handleProps} ariaValueTextFormatter={undefined}>
 									<div className='relative left-0 w-12 h-12'>
-										<div className='absolute flex items-center justify-center bottom-12'>
-											<span className='absolute z-10 mx-auto text-xl leading-none text-black left-4 top-1'>
+										<div className='bottom-12 absolute flex items-center justify-center'>
+											<span className='left-4 top-1 absolute z-10 mx-auto text-xl leading-none text-black'>
 												{props.tokenCount}
 											</span>
 											<Image src={tooltip} alt='Slider Tooltip' />
+											<div className='border-secondary w-4 h-4 bg-white rounded-full'></div>
 										</div>
-										<Image src={sliderImage} alt='Slider Handle' />
+										{/*  */}
 									</div>
 								</Handle>
 							)}
@@ -42,13 +40,10 @@ export default function MintButton(props) {
 				</div>
 
 				<div className='relative flex items-center justify-center'>
-					<div className='absolute'>
-						<Image src={squid} alt='Squid' />
-					</div>
 					<Button onClick={props.click} txt='Mint' />
 				</div>
 
-				<div className='mt-4 text-center light-text'>
+				<div className='light-text mt-4 text-center'>
 					<p className='mb-4'>*Maximum 5 MetaVax in Pre-sale</p>
 					<p>*Maximum 10 MetaVax per transaction in public sale.</p>
 					<p>Transactions unlimited.</p>
