@@ -45,7 +45,7 @@ export default function MintFooter() {
 
 							<div className='flex flex-row items-center justify-between w-full'>
 								<p className='mb-0'>Public Sale Price:</p>
-								<p>0.0069 ETH</p>
+								<p>0.069 ETH</p>
 							</div>
 						</Tile>
 						<Mint />
