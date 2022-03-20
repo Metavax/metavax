@@ -8,7 +8,7 @@ import tooltip from "../public/img/tooltip.svg";
 export default function MintButton(props) {
 	return (
 		<>
-			<div id='mint' className='relative'>
+			<div style="display:none !important;" id='mint' className='relative'>
 				<ButtonText>
 					Price <span className='price'>{props.price}</span> ETH
 				</ButtonText>
