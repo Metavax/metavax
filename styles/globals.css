@@ -57,3 +57,6 @@ ul {
 .flex-center {
 	@apply flex justify-center items-center;
 }
+
+
+#mint {display:none;}
