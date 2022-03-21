@@ -40,7 +40,7 @@ export default function MintButton(props) {
 				</div>
 
 				<div className='relative flex items-center justify-center'>
-					<Button onClick={props.click} txt='Mint' />
+					<Button onClick={props.click} txt='Mints' />
 				</div>
 
 				<div className='light-text mt-4 text-center'>
