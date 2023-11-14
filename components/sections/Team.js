@@ -65,7 +65,7 @@ export default function Team() {
 							carried through by executing and ensuring success. I have gathered
 							the best of the best and spent countless months planning out
 							MetaVax. My ambition is to provide more value, as opposed to
-							extracting it.
+							extracting it.......
 						</p>
 					</Member>
 
